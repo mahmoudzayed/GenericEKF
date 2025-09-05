@@ -8,15 +8,13 @@ public:
     using StateMatrix = Eigen::Matrix<double, StateDim, StateDim>;
     using MeasurementVector = Eigen::Matrix<double, MeasurementDim, 1>;
     using MeasurementMatrix = Eigen::Matrix<double, MeasurementDim, MeasurementDim>;
-    using CrossCovMatrix = Eigen::Matrix<double, MeasurementDim, StateDim>;
 
     virtual ~KalmanFilterBase() = default;
 
-    virtual void initialize(const StateVector& x0, const StateMatrix& P0,
-                            const StateMatrix& Q, const MeasurementMatrix& R) = 0;
+    virtual void initialize(const StateVector& x0, const StateMatrix& P0) = 0;
 
-    virtual void predict() = 0;
+    virtual void predict(const StateVector& u, const unsigned int dtime) = 0;
     virtual void update(const MeasurementVector& z) = 0;
 
-    virtual StateVector state() const = 0;
+    virtual const StateVector& state() const = 0;
 };
